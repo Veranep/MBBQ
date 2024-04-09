@@ -6,7 +6,7 @@ import string
 from tqdm import tqdm
 
 from answer_detection import *
-from apis import *
+from models import *
 from datasets import Dataset
 from huggingface_hub import login
 import numpy as np
