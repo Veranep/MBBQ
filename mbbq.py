@@ -242,7 +242,7 @@ def detect_answer(ans_options, ans, unknown_loc, language="en"):
     if language != "en":
         for before_ans_i in before_ans:
             before_ans_i_trans = trans_before_ans_dict[language][before_ans_i]
-            before_ans_ind.add(before_ans_i_trans)
+            before_ans_ind.append(before_ans_i_trans)
         before_ans_ind += extra_ans_detect[language]["before_ans"]
     for ans_indicator in before_ans_ind:
         if ans_indicator in ans:
@@ -280,7 +280,7 @@ def detect_answer(ans_options, ans, unknown_loc, language="en"):
     if language != "en":
         for after_ans_i in after_ans:
             after_ans_i_trans = trans_after_ans_dict[language][after_ans_i]
-            after_ans_ind.add(after_ans_i_trans)
+            after_ans_ind.append(after_ans_i_trans)
         after_ans_ind += extra_ans_detect[language]["after_ans"]
     for ans_indicator in after_ans_ind:
         if ans_indicator in ans:
@@ -323,7 +323,7 @@ def detect_answer(ans_options, ans, unknown_loc, language="en"):
             unknown_ans_i_trans = trans_unknown_ans_dict[language][
                 unknown_ans_i
             ]
-            unknown_ans_ind.add(unknown_ans_i_trans)
+            unknown_ans_ind.append(unknown_ans_i_trans)
         unknown_ans_ind += extra_ans_detect[language]["unknown_ans"]
     for ans_indicator in unknown_ans_ind:
         if ans_indicator in ans:
