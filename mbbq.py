@@ -238,12 +238,12 @@ def detect_answer(ans_options, ans, unknown_loc, language="en"):
         if ans.split()[0] == ans_options[i].split()[-1].capitalize():
             return i
     # use phrases that come before the answer to detect the model's answer
-    before_ans_ind = set(before_ans + extra_ans_detect["en"]["before_ans"])
+    before_ans_ind = before_ans + extra_ans_detect["en"]["before_ans"]
     if language != "en":
         for before_ans_i in before_ans:
             before_ans_i_trans = trans_before_ans_dict[language][before_ans_i]
             before_ans_ind.add(before_ans_i_trans)
-        before_ans_ind.update(set(extra_ans_detect[language]["before_ans"]))
+        before_ans_ind += extra_ans_detect[language]["before_ans"]
     for ans_indicator in before_ans_ind:
         if ans_indicator in ans:
             for poss_ans in ans.split(ans_indicator)[1:]:
@@ -276,12 +276,12 @@ def detect_answer(ans_options, ans, unknown_loc, language="en"):
                 ):
                     return 2
     # use phrases that come after the answer to detect the model's answer
-    after_ans_ind = set(after_ans + extra_ans_detect["en"]["after_ans"])
+    after_ans_ind = after_ans + extra_ans_detect["en"]["after_ans"]
     if language != "en":
         for after_ans_i in after_ans:
             after_ans_i_trans = trans_after_ans_dict[language][after_ans_i]
             after_ans_ind.add(after_ans_i_trans)
-        after_ans_ind.update(set(extra_ans_detect[language]["after_ans"]))
+        after_ans_ind += extra_ans_detect[language]["after_ans"]
     for ans_indicator in after_ans_ind:
         if ans_indicator in ans:
             for poss_ans in ans.split(ans_indicator)[:-1]:
@@ -317,14 +317,14 @@ def detect_answer(ans_options, ans, unknown_loc, language="en"):
                     return auto_detect(poss_ans.split()[-1])
     # use phrases that indicate that the model cannot answer the question to
     # detect the unknown answer
-    unknown_ans_ind = set(unknown_ans + extra_ans_detect["en"]["unknown_ans"])
+    unknown_ans_ind = unknown_ans + extra_ans_detect["en"]["unknown_ans"]
     if language != "en":
         for unknown_ans_i in unknown_ans:
             unknown_ans_i_trans = trans_unknown_ans_dict[language][
                 unknown_ans_i
             ]
             unknown_ans_ind.add(unknown_ans_i_trans)
-        unknown_ans_ind.update(set(extra_ans_detect[language]["unknown_ans"]))
+        unknown_ans_ind += extra_ans_detect[language]["unknown_ans"]
     for ans_indicator in unknown_ans_ind:
         if ans_indicator in ans:
             return unknown_loc
