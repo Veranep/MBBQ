@@ -47,11 +47,9 @@ class Falcon:
         )
 
     def process(self, example):
-        example[
-            "question"
-        ] = f"""User: {example["question"]}
-
-Assistant:"""
+        example["question"] = self.model.tokenizer.apply_chat_template(
+            [{"role": "user", "content": example["question"]}], tokenize=False
+        )
         return example
 
     def respond(self, dataset):
@@ -90,7 +88,9 @@ class Llama2:
         )
 
     def process(self, example):
-        example["question"] = f"""<s>[INST] {example["question"]} [/INST]"""
+        example["question"] = self.model.tokenizer.apply_chat_template(
+            [{"role": "user", "content": example["question"]}], tokenize=False
+        )
         return example
 
     def respond(self, dataset):
@@ -122,7 +122,9 @@ class Mistral:
         )
 
     def process(self, example):
-        example["question"] = f"""<s>[INST] {example['question']} [/INST]"""
+        example["question"] = self.model.tokenizer.apply_chat_template(
+            [{"role": "user", "content": example["question"]}], tokenize=False
+        )
         return example
 
     def respond(self, dataset):
@@ -159,12 +161,9 @@ class Wizard:
         )
 
     def process(self, example):
-        example[
-            "question"
-        ] = f"""{example['question']}
-
-### Response:
-"""
+        example["question"] = self.model.tokenizer.apply_chat_template(
+            [{"role": "user", "content": example["question"]}], tokenize=False
+        )
         return example
 
     def respond(self, dataset):
@@ -198,9 +197,9 @@ class Zephyr:
         )
 
     def process(self, example):
-        example[
-            "question"
-        ] = f"<|user|>\n{example['question']}</s>\n<|assistant|>\n"
+        example["question"] = self.model.tokenizer.apply_chat_template(
+            [{"role": "user", "content": example["question"]}], tokenize=False
+        )
         return example
 
     def respond(self, dataset):
