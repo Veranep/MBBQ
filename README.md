@@ -4,7 +4,7 @@ This is the repository for the Multilingual Bias Benchmark for Question-answerin
 Authors: Vera Neplenbroek, Arianna Bisazza, Raquel Fernández.
 
 ## The paper
-This dataset was introduced in "MBBQ: A Dataset for Cross-Lingual Comparison of Stereotypes in Generative LLMs".
+This dataset was introduced in [MBBQ: A Dataset for Cross-Lingual Comparison of Stereotypes in Generative LLMs](https://openreview.net/forum?id=X9yV4lFHt4#discussion).
 ![Dataset](MBBQ_dataset.png)
 
 ## About MBBQ (paper abstract)
