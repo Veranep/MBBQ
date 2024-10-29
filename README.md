@@ -36,7 +36,12 @@ pip -r requirements.txt
 ```
 
 - The `data` folder contains all samples from MBBQ, separated by subset, language, and control set.
-- `mbbq.py` contains the code to embed the samples in the 5 prompts, prompt the models, and detect the answer from their response.
+- `mbbq.py` contains the code to embed the samples in the 5 prompts, prompt the models, and detect the answer from their response:
+```
+python mbbq.py -mode generate_samples -subsets Age Disability_status Gender_identity Physical_appearance SES Sexual_orientation -lang nl -model aya -exp_id aya_nl_control --control
+python mbbq.py -mode ask_model -subsets Age Disability_status Gender_identity Physical_appearance SES Sexual_orientation -lang nl -model aya -exp_id aya_nl_control --control
+python mbbq.py -mode detect_answers -subsets Age Disability_status Gender_identity Physical_appearance SES Sexual_orientation -lang nl -model aya -exp_id aya_nl_control --control
+```
 - `models.py` contains the code to load the models and generate responses.
 - `answer_detection.py` contains the prompts, and phrases that are used for detecting answers in the model responses.
 
