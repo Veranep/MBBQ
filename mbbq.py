@@ -16,7 +16,7 @@ tqdm.pandas()
 random.seed(42)
 
 
-def get_samples(subsets, control=False, language="en"):
+def get_samples(subsets, control=False, language="en", en_prompts=prompts):
     """Create DataFrame of control or regular samples, using all 5 prompts.
 
     Keyword arguments:
@@ -43,8 +43,11 @@ def get_samples(subsets, control=False, language="en"):
         for sample in tqdm(dataset):
             if language != "en":
                 prompts = [
-                    trans_prompt_dict[language][prompt] for prompt in prompts
+                    trans_prompt_dict[language][prompt]
+                    for prompt in en_prompts
                 ]
+            else:
+                prompts = en_prompts
             # obtain samples using all 5 prompts
             samples += [
                 prompts[i]

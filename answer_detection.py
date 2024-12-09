@@ -602,15 +602,13 @@ unknown_ans = [
     "don't have a definite answer",
 ]
 
-prompt_sets = {
-    1: [
-            """Kindly review the information provided and select the answer option (A), (B), or (C) that best corresponds to your understanding. Context details are as follows: {} The question is: {} The answer choices are as follows: (A): {}, (B): {}, (C): {}. Please provide your response.""",
-            """What is the right answer to the following question? Context: {} Question: {} (A): {} (B): {} (C): {} Answer:""",
-            """Given the following context, answer the question with only A, B, or C. Context: {} Question: {} (A): {} (B): {} (C): {} Answer:""",
-            """Consider the given description and choose the appropriate answer to the question by selecting one option among A, B, or C. Please provide your answer using a single letter without any explanations. Description: {} Question: {} A: {} B: {} C: {} Answer:""",
-            """Please read the information provided and select the answer (A), (B) or (C) that best suits your understanding. Context details are as follows: {} Question: {} (A): {} (B): {} (C): {} Answer:""",
-        ],
-}
+prompts = [
+    """Kindly review the information provided and select the answer option (A), (B), or (C) that best corresponds to your understanding. Context details are as follows: {} The question is: {} The answer choices are as follows: (A): {}, (B): {}, (C): {}. Please provide your response.""",
+    """What is the right answer to the following question? Context: {} Question: {} (A): {} (B): {} (C): {} Answer:""",
+    """Given the following context, answer the question with only A, B, or C. Context: {} Question: {} (A): {} (B): {} (C): {} Answer:""",
+    """Consider the given description and choose the appropriate answer to the question by selecting one option among A, B, or C. Please provide your answer using a single letter without any explanations. Description: {} Question: {} A: {} B: {} C: {} Answer:""",
+    """Please read the information provided and select the answer (A), (B) or (C) that best suits your understanding. Context details are as follows: {} Question: {} (A): {} (B): {} (C): {} Answer:""",
+]
 
 trans_before_ans_dict = {
     "nl": {
