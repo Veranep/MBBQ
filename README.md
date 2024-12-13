@@ -46,3 +46,16 @@ python mbbq.py -mode detect_answers -subsets Age Disability_status Gender_identi
 - `answer_detection.py` contains the prompts, and phrases that are used for detecting answers in the model responses.
 
 **Note:** MBBQ is intended for model evaluation and should *NOT* be used for model training. The bias scores obtained from evaluation on MBBQ are an indication of the social biases present in a model, but are no guarantee for the model's behavior in other settings.
+
+## Citation
+If you use the code in this repository, please cite the following paper:
+```
+@inproceedings{
+neplenbroek2024mbbq,
+title={{MBBQ}: A Dataset for Cross-Lingual Comparison of Stereotypes in Generative {LLM}s},
+author={Vera Neplenbroek and Arianna Bisazza and Raquel Fern{\'a}ndez},
+booktitle={First Conference on Language Modeling},
+year={2024},
+url={https://openreview.net/forum?id=X9yV4lFHt4}
+}
+```
