@@ -32,7 +32,7 @@ to encourage further research on bias in multilingual settings.
 In order to run the code included in this project, install the requirements in your virtual environment by running
 
 ```
-pip -r requirements.txt
+pip install -r requirements.txt
 ```
 
 - The `data` folder contains all samples from MBBQ, separated by subset, language, and control set.
