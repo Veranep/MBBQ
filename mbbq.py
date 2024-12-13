@@ -1,12 +1,13 @@
 import argparse
 import json
+import os
 import pickle
 import random
 import string
 from tqdm import tqdm
 
 from answer_detection import *
-from models import *
+from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 from datasets import Dataset
 from huggingface_hub import login
 import numpy as np
@@ -161,11 +162,43 @@ def get_samples(subsets, control=False, language="en", en_prompts=prompts):
     return df_samples
 
 
-def ask_model(questions, model, model_name):
+def process(model, example):
+    """Apply chat template to example"""
+    example["question"] = model.tokenizer.apply_chat_template(
+        [{"role": "user", "content": example["question"]}],
+        tokenize=False,
+        add_generation_prompt=True,
+    )
+    return example
+
+
+def ask_model(questions, model_name, bs):
     """Add column of model answers to questions DataFrame."""
     dataset = Dataset.from_pandas(questions)
-    answers = model.respond(dataset)
-    questions[f"answer_{model_name}"] = answers
+    model = pipeline(
+        "text-generation",
+        model=model_name,
+        tokenizer=model_name,
+        torch_dtype=torch.bfloat16,
+        device_map="auto",
+    )
+    if not model.tokenizer.pad_token_id:
+        model.tokenizer.pad_token_id = model.tokenizer.eos_token_id
+    dataset = dataset.map(lambda x: process(model, x))
+    responses = []
+    for response in tqdm(
+        model(
+            KeyDataset(dataset, "question"),
+            batch_size=bs,
+            max_new_tokens=100,
+            do_sample=False,
+            return_full_text=False,
+            num_beams=1,
+        ),
+        total=len(dataset),
+    ):
+        responses.append(response[0]["generated_text"])
+    questions[f"answer"] = responses
     return questions
 
 
@@ -441,20 +474,7 @@ if __name__ == "__main__":
         choices=["nl", "en", "es", "tr"],
         help="Language",
     )
-    parser.add_argument(
-        "-model",
-        type=str,
-        choices=[
-            "aya",
-            "falcon",
-            "llama",
-            "mistral",
-            "wizard",
-            "zephyr",
-        ],
-        default=None,
-        help="Model",
-    )
+    parser.add_argument("-model", type=str, default=None, help="Model")
     parser.add_argument(
         "-exp_id",
         type=str,
@@ -472,19 +492,16 @@ if __name__ == "__main__":
         default="",
         help="Huggingface token that grants access to Llama model",
     )
-
+    parser.add_argument(
+        "-bs",
+        type=int,
+        default=None,
+        help="Batch size",
+    )
     args = parser.parse_args()
-    model_dict = {
-        "aya": Aya,
-        "falcon": Falcon,
-        "llama": Llama2,
-        "mistral": Mistral,
-        "wizard": Wizard,
-        "zephyr": Zephyr,
-    }
     samples_file = f"trial{args.exp_id}_samples_{args.lang}.pkl"
 
-    if args.mode == "generate_samples":
+    if args.mode == "generate_samples" and not os.path.isfile(samples_file):
         df_samples = get_samples(
             args.subsets,
             control=args.control,
@@ -496,14 +513,16 @@ if __name__ == "__main__":
     else:
         with open(samples_file, "rb") as infile:
             df_samples = pickle.load(infile)
-        if args.mode == "ask_model":
+        if args.mode == "ask_model" and "answer" not in df_samples.columns:
             login(args.token)
-            model = model_dict[args.model]()
-            df_samples = ask_model(df_samples, model, args.model)
+            df_samples = ask_model(df_samples, args.model, args.bs)
             print(f"Asked {args.model} questions in {args.lang}")
             with open(samples_file, "wb") as outfile:
                 pickle.dump(df_samples, outfile)
-        elif args.mode == "detect_answers":
+        elif args.mode == "detect_answers" and not (
+            "answer_detected" in df_samples.columns
+            and "answer_processed" in df_samples.columns
+        ):
             df_samples = detect_answers(df_samples, args.lang)
             print(f"Detected answers in {args.lang}")
             with open(samples_file, "wb") as outfile:
