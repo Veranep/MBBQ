@@ -126,7 +126,7 @@ def get_samples(subsets, control=False, language="en", en_prompts=prompts):
                         loc = int(ans[0][-1])
                         other_loc = 0 if (ul in [1,2] and loc in [1,2]) else 1 if (ul in [0,2] and loc in [0,2]) else 2
                         for _ in range(5):
-                            if "question_polarity" == "neg":
+                            if sample["question_polarity"] == "neg":
                                 target_loc.append(loc)
                             else:
                                 target_loc.append(other_loc)
