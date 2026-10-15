@@ -100,15 +100,18 @@ def get_samples(subsets, control=False, language="en", en_prompts=prompts):
             # find location of target and unknown answers
             found_target_loc = False
             for ans in sample["answer_info"].items():
+                if ans[1][1] == "unknown":
+                    ul = int(ans[0][-1])
+            for _ in range(5):
+                unknown_loc.append(ul)
+            for ans in sample["answer_info"].items():
                 # make sure entries in 'answer info' field match
                 # 'stereotyped groups'
+                
                 if ans[1][1] == "F":
                     ans[1][1] = "woman"
                 if ans[1][1] == "M":
                     ans[1][1] = "man"
-                if ans[1][1] == "unknown":
-                    for _ in range(5):
-                        unknown_loc.append(int(ans[0][-1]))
                 if (
                     ans[1][1]
                     in sample["additional_metadata"]["stereotyped_groups"]
@@ -120,8 +123,13 @@ def get_samples(subsets, control=False, language="en", en_prompts=prompts):
                             target_loc.append(100)
                     else:
                         found_target_loc = True
+                        loc = int(ans[0][-1])
+                        other_loc = 0 if (ul in [1,2] and loc in [1,2]) else 1 if (ul in [0,2] and loc in [0,2]) else 2
                         for _ in range(5):
-                            target_loc.append(int(ans[0][-1]))
+                            if "question_polarity" == "neg":
+                                target_loc.append(loc)
+                            else:
+                                target_loc.append(other_loc)
             # a few BBQ samples include two people from non-target groups
             if not found_target_loc:
                 for _ in range(5):
