@@ -3,6 +3,8 @@ This is the repository for the Multilingual Bias Benchmark for Question-answerin
 
 Authors: Vera Neplenbroek, Arianna Bisazza, Raquel Fernández.
 
+**Note:** In the initial version of this repo, there was a small error that is relevant for how the bias scores are computed: Previously, the same answer would be counted as (counter-)biased regardless of the polarity of the question. After making this change, the figures and tables in `bias_score_correction.pdf` show the updated (correct) bias scores.
+
 ## The paper
 This dataset was introduced in [MBBQ: A Dataset for Cross-Lingual Comparison of Stereotypes in Generative LLMs](https://openreview.net/forum?id=X9yV4lFHt4#discussion).
 ![Dataset](MBBQ_dataset.png)
