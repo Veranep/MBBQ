@@ -3,7 +3,8 @@ This is the repository for the Multilingual Bias Benchmark for Question-answerin
 
 Authors: Vera Neplenbroek, Arianna Bisazza, Raquel Fernández.
 
-**Note:** In the initial version of this repo, there was a small error that is relevant for how the bias scores are computed: Previously, the same answer would be counted as (counter-)biased regardless of the polarity of the question. After making this change, the figures and tables in `bias_score_correction.pdf` show the updated (correct) bias scores.
+**Note (7-11-2026):** In the initial version of this repo, there was a small error that is relevant for how the bias scores are computed: Previously, the same answer would be counted as (counter-)biased regardless of the polarity of the question. After making this change, the figures and tables in `bias_score_correction.pdf` show the updated (correct) bias scores.
+**Note (13-11-2026):** The initial version of our dataset inherits issues with version b of the Physical_appearance templates with question_index 6 and 10 from the original BBQ dataset, where the label referring to the correct answer is incorrectly specified. These issues, as well as small issues with a few Disability_status (control) examples in Spanish (14) and Turkish (18) have now been fixed.
 
 ## The paper
 This dataset was introduced in [MBBQ: A Dataset for Cross-Lingual Comparison of Stereotypes in Generative LLMs](https://openreview.net/forum?id=X9yV4lFHt4#discussion).
